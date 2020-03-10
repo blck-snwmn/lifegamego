@@ -25,7 +25,7 @@ func (c *Cell) SetAlive() {
 	c.state = alive
 }
 
-func (c *Cell) changeState(count int) {
+func (c *Cell) wake(count int) {
 	defer func() {
 		for _, ch := range c.to {
 			close(ch)
@@ -100,7 +100,7 @@ type LifeGame struct {
 func (lg *LifeGame) Start() {
 	for i, c := range lg.Cells {
 		for j := range c {
-			go lg.Cells[i][j].changeState(lg.tickNum)
+			go lg.Cells[i][j].wake(lg.tickNum)
 		}
 	}
 }

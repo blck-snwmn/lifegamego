@@ -1,5 +1,7 @@
 package lifegame
 
+import "context"
+
 // State is life game cell state
 type State bool
 
@@ -47,7 +49,7 @@ func (c *Cell) SetAlive() {
 	c.state = alive
 }
 
-func (c *Cell) wake(count int) {
+func (c *Cell) wake(ctx context.Context, count int) {
 	defer func() {
 		for _, ch := range c.to {
 			close(ch)
@@ -55,19 +57,32 @@ func (c *Cell) wake(count int) {
 	}()
 	// send initial state
 	for _, ch := range c.to {
-		ch <- c.state
+		select {
+		case <-ctx.Done():
+			return
+		case ch <- c.state:
+		}
 	}
 
 	for i := 0; i < count; i++ {
 		count := 0
 		for _, ch := range c.from {
-			if <-ch {
-				count++
+			select {
+			case <-ctx.Done():
+				return
+			case s := <-ch:
+				if s.IsAlive() {
+					count++
+				}
 			}
 		}
 		c.state = changeState(c.state, count)
 		for _, ch := range c.to {
-			ch <- c.state
+			select {
+			case <-ctx.Done():
+				return
+			case ch <- c.state:
+			}
 		}
 	}
 }
@@ -104,10 +119,10 @@ type LifeGame struct {
 }
 
 // Start start life game
-func (lg *LifeGame) Start() {
+func (lg *LifeGame) Start(ctx context.Context) {
 	for i, c := range lg.Cells {
 		for j := range c {
-			go lg.Cells[i][j].wake(lg.tickNum)
+			go lg.Cells[i][j].wake(ctx, lg.tickNum)
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -18,7 +19,9 @@ func main() {
 	cs.Cells[1][1].SetAlive()
 	cs.Cells[1][2].SetAlive()
 
-	cs.Start()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	cs.Start(ctx)
 
 	for i := 0; i < 10; i++ {
 		for _, line := range d {

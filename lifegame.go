@@ -8,6 +8,11 @@ const (
 	alive State = true
 )
 
+// IsAlive return true if state is alive
+func (s State) IsAlive() bool {
+	return s == alive
+}
+
 // Cell is life game cell
 type Cell struct {
 	from  []<-chan State

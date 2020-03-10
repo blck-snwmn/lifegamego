@@ -25,7 +25,7 @@ func main() {
 			for _, column := range line {
 				s := <-column
 				var v string
-				if s {
+				if s.IsAlive() {
 					v = csi + "47m " + csi + "0m"
 				} else {
 					v = csi + "8m " + csi + "0m"

@@ -1,11 +1,4 @@
-package main
-
-import (
-	"fmt"
-	"time"
-)
-
-const csi = "\033["
+package lifegame
 
 // State is life game cell state
 type State bool
@@ -20,6 +13,11 @@ type Cell struct {
 	from  []<-chan State
 	to    []chan<- State
 	state State
+}
+
+// SetAlive set state
+func (c *Cell) SetAlive() {
+	c.state = alive
 }
 
 func (c *Cell) changeState(count int) {
@@ -154,35 +152,4 @@ func (lg *LifeGame) genCell(sl, sc, dl, dc int, cond bool) {
 		lg.Cells[dl][dc].from = append(lg.Cells[dl][dc].from, c)
 		lg.Cells[sl][sc].to = append(lg.Cells[sl][sc].to, c)
 	}
-}
-
-func main() {
-	// tickNum := 1
-	height := 3
-	width := 3
-	cs, d := NewLifeGame(height, width)
-	cs.Cells[1][0].state = alive
-	cs.Cells[1][1].state = alive
-	cs.Cells[1][2].state = alive
-
-	cs.Start()
-
-	for i := 0; i < 10; i++ {
-		for _, line := range d {
-			for _, column := range line {
-				s := <-column
-				var v string
-				if s {
-					v = csi + "47m " + csi + "0m"
-				} else {
-					v = csi + "8m " + csi + "0m"
-				}
-				fmt.Print(v)
-			}
-			fmt.Print("\n")
-		}
-		time.Sleep(time.Second)
-		fmt.Printf(csi+"%dF", height)
-	}
-	fmt.Printf(csi+"%dE", height)
 }

@@ -8,6 +8,13 @@ const (
 	alive State = true
 )
 
+func (s State) String() string {
+	if s.IsAlive() {
+		return "Alive"
+	}
+	return "Dead"
+}
+
 // IsAlive return true if state is alive
 func (s State) IsAlive() bool {
 	return s == alive
@@ -18,6 +25,21 @@ type Cell struct {
 	from  []<-chan State
 	to    []chan<- State
 	state State
+}
+
+func changeState(now State, aliveNum int) State {
+	if now.IsAlive() {
+		//alive
+		switch aliveNum {
+		case 2, 3:
+			return alive
+		default: //0, 1, 4, 5, 6, 7, 8
+			return dead
+		}
+	} else if aliveNum == 3 {
+		return alive
+	}
+	return dead
 }
 
 // SetAlive set state
@@ -43,22 +65,7 @@ func (c *Cell) wake(count int) {
 				count++
 			}
 		}
-		if c.state {
-			//alive
-			switch count {
-			case 2, 3:
-				c.state = alive
-			case 0, 1:
-				c.state = dead
-			default:
-				c.state = dead
-			}
-
-		} else if count == 3 {
-			//dead
-			c.state = alive
-		}
-
+		c.state = changeState(c.state, count)
 		for _, ch := range c.to {
 			ch <- c.state
 		}

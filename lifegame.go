@@ -22,13 +22,6 @@ func (s State) IsAlive() bool {
 	return s == alive
 }
 
-// Cell is life game cell
-type Cell struct {
-	from  []<-chan State
-	to    []chan<- State
-	state State
-}
-
 func changeState(now State, aliveNum int) State {
 	if now.IsAlive() {
 		//alive
@@ -42,6 +35,13 @@ func changeState(now State, aliveNum int) State {
 		return alive
 	}
 	return dead
+}
+
+// Cell is life game cell
+type Cell struct {
+	from  []<-chan State
+	to    []chan<- State
+	state State
 }
 
 // SetAlive set state

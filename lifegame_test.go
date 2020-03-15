@@ -1,6 +1,7 @@
 package lifegame
 
 import (
+	"context"
 	"fmt"
 	"reflect"
 	"testing"
@@ -52,5 +53,29 @@ func Test_changeState(t *testing.T) {
 				t.Errorf("changeState() = %s, want %s", got, tt.want)
 			}
 		})
+	}
+}
+
+func TestCell_sendState(t *testing.T) {
+	ch := make(chan State)
+	defer close(ch)
+	c := Cell{to: []chan<- State{ch}}
+
+	ctx := context.Background()
+
+	c.state = alive
+	go func() {
+		c.sendState(ctx)
+	}()
+	if s := <-ch; alive != s {
+		t.Errorf("want=%v, got=%v", alive, s)
+	}
+
+	c.state = dead
+	go func() {
+		c.sendState(ctx)
+	}()
+	if s := <-ch; dead != s {
+		t.Errorf("want=%v, got=%v", dead, s)
 	}
 }

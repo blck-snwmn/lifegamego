@@ -49,13 +49,7 @@ func (c *Cell) SetAlive() {
 	c.state = alive
 }
 
-func (c *Cell) wake(ctx context.Context, count int) {
-	defer func() {
-		for _, ch := range c.to {
-			close(ch)
-		}
-	}()
-	// send initial state
+func (c *Cell) sendState(ctx context.Context) {
 	for _, ch := range c.to {
 		select {
 		case <-ctx.Done():
@@ -63,6 +57,16 @@ func (c *Cell) wake(ctx context.Context, count int) {
 		case ch <- c.state:
 		}
 	}
+}
+
+func (c *Cell) wake(ctx context.Context, count int) {
+	defer func() {
+		for _, ch := range c.to {
+			close(ch)
+		}
+	}()
+	// send initial state
+	c.sendState(ctx)
 
 	for i := 0; i < count; i++ {
 		count := 0
@@ -77,13 +81,7 @@ func (c *Cell) wake(ctx context.Context, count int) {
 			}
 		}
 		c.state = changeState(c.state, count)
-		for _, ch := range c.to {
-			select {
-			case <-ctx.Done():
-				return
-			case ch <- c.state:
-			}
-		}
+		c.sendState(ctx)
 	}
 }
 

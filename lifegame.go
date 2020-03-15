@@ -6,20 +6,7 @@ import "context"
 func New(width, height int) (*LifeGame, [][]<-chan State) {
 	lg := &LifeGame{}
 	lg.tickNum = 10
-	// init
-	cells := make(Cells, height)
-
-	seq := 0
-	// set Cell
-	for i := 0; i < height; i++ {
-		cells[i] = make([]Cell, width)
-
-		for j := 0; j < width; j++ {
-			cells[i][j] = Cell{[]<-chan State{}, []chan<- State{}, false}
-			seq++
-		}
-	}
-	lg.Cells = cells
+	lg.Cells = NewEmptyCells(width, height)
 	dwr := lg.genCells(width, height)
 	return lg, dwr
 }

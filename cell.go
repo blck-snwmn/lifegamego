@@ -81,3 +81,18 @@ func (c *Cell) wake(ctx context.Context, count int) {
 
 // Cells is cell array
 type Cells [][]Cell
+
+// NewEmptyCells return Cells.
+// but, each cells don't have elements
+func NewEmptyCells(width, height int) Cells {
+	cells := make(Cells, height)
+	// set Cell
+	for i := 0; i < height; i++ {
+		cells[i] = make([]Cell, width)
+
+		for j := 0; j < width; j++ {
+			cells[i][j] = Cell{[]<-chan State{}, []chan<- State{}, false}
+		}
+	}
+	return cells
+}

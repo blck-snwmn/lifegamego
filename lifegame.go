@@ -23,16 +23,12 @@ func (s State) IsAlive() bool {
 }
 
 func changeState(now State, aliveNum int) State {
-	if now.IsAlive() {
-		//alive
-		if aliveNum < 2 || aliveNum > 3 {
-			return dead
-		}
-		return alive
+	if now.IsAlive() && (aliveNum < 2 || aliveNum > 3) {
+		return dead
 	} else if aliveNum == 3 {
 		return alive
 	}
-	return dead
+	return now
 }
 
 // Cell is life game cell

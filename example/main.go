@@ -70,5 +70,9 @@ func main() {
 		time.Sleep(100 * time.Millisecond)
 		fmt.Printf(csi+"%dF", height)
 	}
-	fmt.Printf(csi+"%dE", height)
+	// clean up
+	for i := 0; i < height; i++ {
+		fmt.Print("\033[2K\033[1E")
+	}
+	fmt.Printf("\033[%dF", height)
 }

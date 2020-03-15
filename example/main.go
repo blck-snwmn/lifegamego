@@ -14,7 +14,7 @@ func main() {
 	// tickNum := 1
 	height := 3
 	width := 3
-	cs, d := lifegame.New(height, width)
+	cs, d := lifegame.New(width, height)
 	cs.Cells[1][0].SetAlive()
 	cs.Cells[1][1].SetAlive()
 	cs.Cells[1][2].SetAlive()

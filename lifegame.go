@@ -90,8 +90,8 @@ func (c *Cell) wake(ctx context.Context, count int) {
 // Cells is cell array
 type Cells [][]Cell
 
-// NewLifeGame return LifeGame and channels to show
-func NewLifeGame(width, height int) (*LifeGame, [][]<-chan State) {
+// New return LifeGame and channels to show
+func New(width, height int) (*LifeGame, [][]<-chan State) {
 	lg := &LifeGame{}
 	lg.tickNum = 10
 	// init

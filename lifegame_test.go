@@ -68,7 +68,7 @@ func TestCell_sendState(t *testing.T) {
 		c.sendState(ctx)
 	}()
 	if s := <-ch; alive != s {
-		t.Errorf("want=%v, got=%v", alive, s)
+		t.Errorf("received state mismatch. want=%v, got=%v", alive, s)
 	}
 
 	c.state = dead
@@ -76,6 +76,6 @@ func TestCell_sendState(t *testing.T) {
 		c.sendState(ctx)
 	}()
 	if s := <-ch; dead != s {
-		t.Errorf("want=%v, got=%v", dead, s)
+		t.Errorf("received state mismatch. want=%v, got=%v", dead, s)
 	}
 }

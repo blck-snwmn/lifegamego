@@ -3,11 +3,24 @@ package lifegame
 import "context"
 
 // New return LifeGame and channels to show
-func New(width, height, tickNum int) (*LifeGame, [][]<-chan State) {
+func New(width, height, tickNum int, initStates [][]int) (*LifeGame, [][]<-chan State) {
 	lg := &LifeGame{}
 	lg.tickNum = tickNum
 	lg.Cells = NewEmptyCells(width, height)
 	dwr := lg.genCells(width, height)
+
+	for i := 0; i < height; i++ {
+		for j := 0; j < width; j++ {
+			var s State
+			switch initStates[i][j] {
+			case 0:
+				s = dead
+			default:
+				s = alive
+			}
+			lg.Cells[i][j].state = s
+		}
+	}
 	return lg, dwr
 }
 

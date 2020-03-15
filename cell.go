@@ -53,6 +53,22 @@ func (c *Cell) sendState(ctx context.Context) {
 	}
 }
 
+func (c *Cell) tick(ctx context.Context) {
+	count := 0
+	for _, ch := range c.from {
+		select {
+		case <-ctx.Done():
+			return
+		case s := <-ch:
+			if s.IsAlive() {
+				count++
+			}
+		}
+	}
+	c.state = changeState(c.state, count)
+	c.sendState(ctx)
+}
+
 func (c *Cell) wake(ctx context.Context, count int) {
 	defer func() {
 		for _, ch := range c.to {
@@ -63,19 +79,7 @@ func (c *Cell) wake(ctx context.Context, count int) {
 	c.sendState(ctx)
 
 	for i := 0; i < count; i++ {
-		count := 0
-		for _, ch := range c.from {
-			select {
-			case <-ctx.Done():
-				return
-			case s := <-ch:
-				if s.IsAlive() {
-					count++
-				}
-			}
-		}
-		c.state = changeState(c.state, count)
-		c.sendState(ctx)
+		c.tick(ctx)
 	}
 }
 

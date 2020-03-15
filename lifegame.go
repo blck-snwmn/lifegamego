@@ -52,27 +52,27 @@ func (lg *LifeGame) genCells(width, height int) [][]<-chan State {
 			left := j - 1
 			right := j + 1
 
-			isInTop := top >= 0
-			isInBtm := btm < height
-			isInRight := right < width
-			isInLeft := left >= 0
+			existsTop := top >= 0
+			existsBtm := btm < height
+			existsRight := right < width
+			existsLeft := left >= 0
 
 			// top
-			lg.genCell(i, j, top, j, isInTop)
+			lg.genCell(i, j, top, j, existsTop)
 			// bottom
-			lg.genCell(i, j, btm, j, isInBtm)
+			lg.genCell(i, j, btm, j, existsBtm)
 			// left
-			lg.genCell(i, j, i, left, isInLeft)
+			lg.genCell(i, j, i, left, existsLeft)
 			// right
-			lg.genCell(i, j, i, right, isInRight)
+			lg.genCell(i, j, i, right, existsRight)
 			// top-left
-			lg.genCell(i, j, top, left, isInTop && isInLeft)
+			lg.genCell(i, j, top, left, existsTop && existsLeft)
 			// top-right
-			lg.genCell(i, j, top, right, isInTop && isInRight)
+			lg.genCell(i, j, top, right, existsTop && existsRight)
 			// bottom-left
-			lg.genCell(i, j, btm, left, isInBtm && isInLeft)
+			lg.genCell(i, j, btm, left, existsBtm && existsLeft)
 			// bottom-right
-			lg.genCell(i, j, btm, right, isInBtm && isInRight)
+			lg.genCell(i, j, btm, right, existsBtm && existsRight)
 			{
 				// drawer
 				c := make(chan State, 1)

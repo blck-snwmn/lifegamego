@@ -37,7 +37,7 @@ func main() {
 			}
 			fmt.Print("\n")
 		}
-		time.Sleep(time.Second)
+		time.Sleep(100 * time.Millisecond)
 		fmt.Printf(csi+"%dF", height)
 	}
 	fmt.Printf(csi+"%dE", height)

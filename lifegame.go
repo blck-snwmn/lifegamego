@@ -3,9 +3,9 @@ package lifegame
 import "context"
 
 // New return LifeGame and channels to show
-func New(width, height int) (*LifeGame, [][]<-chan State) {
+func New(width, height, tickNum int) (*LifeGame, [][]<-chan State) {
 	lg := &LifeGame{}
-	lg.tickNum = 10
+	lg.tickNum = tickNum
 	lg.Cells = NewEmptyCells(width, height)
 	dwr := lg.genCells(width, height)
 	return lg, dwr

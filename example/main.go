@@ -11,10 +11,10 @@ import (
 const csi = "\033["
 
 func main() {
-	// tickNum := 1
+	tickNum := 100
 	height := 3
 	width := 3
-	cs, d := lifegame.New(width, height)
+	cs, d := lifegame.New(width, height, tickNum)
 	cs.Cells[1][0].SetAlive()
 	cs.Cells[1][1].SetAlive()
 	cs.Cells[1][2].SetAlive()
@@ -23,7 +23,7 @@ func main() {
 	defer cancel()
 	cs.Start(ctx)
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < tickNum; i++ {
 		for _, line := range d {
 			for _, column := range line {
 				s := <-column

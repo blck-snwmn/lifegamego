@@ -25,12 +25,10 @@ func (s State) IsAlive() bool {
 func changeState(now State, aliveNum int) State {
 	if now.IsAlive() {
 		//alive
-		switch aliveNum {
-		case 2, 3:
-			return alive
-		default: //0, 1, 4, 5, 6, 7, 8
+		if aliveNum < 2 || aliveNum > 3 {
 			return dead
 		}
+		return alive
 	} else if aliveNum == 3 {
 		return alive
 	}

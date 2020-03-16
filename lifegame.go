@@ -7,7 +7,7 @@ func New(width, height, tickNum int, initStates [][]int) (*LifeGame, [][]<-chan 
 	lg := &LifeGame{}
 	lg.tickNum = tickNum
 	lg.Cells = NewEmptyCells(width, height)
-	dwr := lg.genCells(width, height)
+	dwr := lg.registerNeighbor(width, height)
 
 	for i := 0; i < height; i++ {
 		for j := 0; j < width; j++ {
@@ -39,7 +39,7 @@ func (lg *LifeGame) Start(ctx context.Context) {
 	}
 }
 
-func (lg *LifeGame) genCells(width, height int) [][]<-chan State {
+func (lg *LifeGame) registerNeighbor(width, height int) [][]<-chan State {
 	drawer := make([][]<-chan State, height)
 	// set chan
 	for i := 0; i < height; i++ {

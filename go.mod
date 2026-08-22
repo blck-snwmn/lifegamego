@@ -1,3 +1,3 @@
 module github.com/blck-snwmn/lifegame
 
-go 1.20
+go 1.27.0

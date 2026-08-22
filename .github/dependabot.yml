@@ -11,6 +11,8 @@ updates:
       - blck-snwmn
     schedule:
       interval: "monthly"
+    cooldown:
+      default-days: 7
     groups:
       dependencies:
         patterns:
@@ -21,6 +23,8 @@ updates:
       - blck-snwmn
     schedule:
       interval: "monthly"
+    cooldown:
+      default-days: 7
     groups:
       dependencies:
         patterns:

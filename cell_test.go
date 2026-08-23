@@ -2,19 +2,18 @@ package lifegame
 
 import (
 	"context"
-	"fmt"
 	"reflect"
 	"testing"
 )
 
 func TestState_String(t *testing.T) {
 	t.Run("state.alive return `Alive`", func(t *testing.T) {
-		if fmt.Sprintf("%s", alive) != "Alive" {
+		if alive.String() != "Alive" {
 			t.Errorf("State.String() = %s, want %s", alive, "Alive")
 		}
 	})
 	t.Run("state.dead return `Dead`", func(t *testing.T) {
-		if fmt.Sprintf("%s", dead) != "Dead" {
+		if dead.String() != "Dead" {
 			t.Errorf("State.String() = %s, want %s", dead, "Dead")
 		}
 	})

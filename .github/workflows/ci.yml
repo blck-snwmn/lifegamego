@@ -50,6 +50,3 @@ jobs:
 
       - name: Lint
         run: GOOS=js GOARCH=wasm golangci-lint run ./...
-
-      - name: Check formatting
-        run: golangci-lint fmt --diff

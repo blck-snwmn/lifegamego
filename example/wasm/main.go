@@ -65,7 +65,7 @@ func main() {
 	cs.Start(ctx)
 
 	fmt.Println("start lifegame")
-	for i := 0; i < tickNum; i++ {
+	for range tickNum {
 		for l, line := range d {
 			for c, column := range line {
 				l := l

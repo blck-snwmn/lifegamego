@@ -53,7 +53,7 @@ func main() {
 	defer cancel()
 	cs.Start(ctx)
 
-	for i := 0; i < tickNum; i++ {
+	for range tickNum {
 		for _, line := range d {
 			for _, column := range line {
 				s := <-column
@@ -71,7 +71,7 @@ func main() {
 		fmt.Printf(csi+"%dF", height)
 	}
 	// clean up
-	for i := 0; i < height; i++ {
+	for range height {
 		fmt.Print("\033[2K\033[1E")
 	}
 	fmt.Printf("\033[%dF", height)

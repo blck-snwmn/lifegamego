@@ -9,8 +9,8 @@ func New(width, height, tickNum int, initStates [][]int) (*LifeGame, [][]<-chan 
 	lg.Cells = NewEmptyCells(width, height)
 	dwr := lg.registerNeighbor(width, height)
 
-	for i := 0; i < height; i++ {
-		for j := 0; j < width; j++ {
+	for i := range height {
+		for j := range width {
 			var s State
 			switch initStates[i][j] {
 			case 0:
@@ -42,10 +42,10 @@ func (lg *LifeGame) Start(ctx context.Context) {
 func (lg *LifeGame) registerNeighbor(width, height int) [][]<-chan State {
 	drawer := make([][]<-chan State, height)
 	// set chan
-	for i := 0; i < height; i++ {
+	for i := range height {
 		drawer[i] = make([]<-chan State, width)
 
-		for j := 0; j < width; j++ {
+		for j := range width {
 
 			top := i - 1
 			btm := i + 1

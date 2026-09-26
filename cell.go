@@ -78,7 +78,7 @@ func (c *Cell) wake(ctx context.Context, count int) {
 	// send initial state
 	c.sendState(ctx)
 
-	for i := 0; i < count; i++ {
+	for range count {
 		c.tick(ctx)
 	}
 }
@@ -91,10 +91,10 @@ type Cells [][]Cell
 func NewEmptyCells(width, height int) Cells {
 	cells := make(Cells, height)
 	// set Cell
-	for i := 0; i < height; i++ {
+	for i := range height {
 		cells[i] = make([]Cell, width)
 
-		for j := 0; j < width; j++ {
+		for j := range width {
 			cells[i][j] = Cell{[]<-chan State{}, []chan<- State{}, false}
 		}
 	}

@@ -86,7 +86,7 @@ func TestCell_tick(t *testing.T) {
 
 	toCh := make(chan State)
 
-	for i := 0; i < size; i++ {
+	for i := range size {
 		ch := make(chan State)
 		fromChs[i] = ch
 		sendChs[i] = ch

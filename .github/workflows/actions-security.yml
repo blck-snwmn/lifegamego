@@ -4,7 +4,13 @@ on:
   push:
     branches:
       - master
+    paths:
+      - ".github/workflows/**"
+      - aqua.yaml
   pull_request:
+    paths:
+      - ".github/workflows/**"
+      - aqua.yaml
 
 permissions:
   contents: read
